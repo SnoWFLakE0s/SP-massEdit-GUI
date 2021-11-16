@@ -52,10 +52,11 @@ ent_fileDirectory.grid(row=0, column=1, sticky="news", padx=(10,0))
 frm_commonChoices = tk.Frame(master=frm_main, bg="#2f3136", borderwidth=2, relief=GROOVE)
 frm_commonChoices.grid(row=1, column=0, sticky="nws", pady=20)
 lbl_commonChoices = tk.Label(master=frm_commonChoices, text="Basic Options", bg="#2f3136", fg="white").grid(row=0, column=0, sticky="nws", pady=(0,10))
+# Tooltip
 lbl_commonChoices_info = tk.Label(master=frm_commonChoices, bg="#2f3136", image=img_info_icon)
 lbl_commonChoices_info.grid(row=0, column=0, sticky="w", padx=(75,0), pady=(0,8))
 tooltip_commonChoices_info = Pmw.Balloon(root)
-tooltip_commonChoices_info.bind(lbl_commonChoices_info,"Text for the tool tip")
+tooltip_commonChoices_info.bind(lbl_commonChoices_info,"Commonly used, basic options for projects. Click the options to enable any particular one.")
 
 # Option: set massScale = 0
 # Make options mutually exclusive
@@ -144,10 +145,20 @@ chkbtn_commonChoices_intertiaTensors.grid(row=3, column=3, sticky="nws", padx=(0
 frm_advancedOptions = tk.Frame(master=frm_main, bg="#2f3136", borderwidth=2, relief=GROOVE)
 frm_advancedOptions.grid(row=2, column=0, sticky="news")
 lbl_advancedOptions = tk.Label(master=frm_advancedOptions, text="Advanced Options", bg="#2f3136", fg="white").grid(row=0, column=0, sticky="nws", pady=(0,10))
+# Tooltip
+lbl_advancedOptions_info = tk.Label(master=frm_advancedOptions, bg="#2f3136", image=img_info_icon)
+lbl_advancedOptions_info.grid(row=0, column=0, sticky="w", padx=(102,0), pady=(0,8))
+tooltip_advancedOptions_info = Pmw.Balloon(root)
+tooltip_advancedOptions_info.bind(lbl_advancedOptions_info,"Mass edit any attribute using the fields below. Click whitelist/blacklist to enable the option.")
 
 # Attr setting
 lbl_advancedOptions_attribute = tk.Label(master=frm_advancedOptions, text="Property", anchor="w", bg="#2f3136", fg="white")
 lbl_advancedOptions_attribute.grid(row=1, column=0, sticky="nws", padx=(5,0))
+# Tooltip
+lbl_advancedOptions_attribute_info = tk.Label(master=lbl_advancedOptions_attribute, bg="#2f3136", image=img_info_icon)
+lbl_advancedOptions_attribute_info.grid(row=0, column=0, sticky="w", padx=(47,0), pady=(2,0))
+tooltip_advancedOptions_attribute_info = Pmw.Balloon(root)
+tooltip_advancedOptions_attribute_info.bind(lbl_advancedOptions_attribute_info,"Enter a property to mass edit.")
 # Entry for attr
 ent_advancedOptions_attribute = tk.Entry(master=frm_advancedOptions, bg="white", width=25)
 ent_advancedOptions_attribute.grid(row=2, column=0, sticky="nws", padx=(7,0), pady=(5,5))
@@ -162,6 +173,10 @@ ent_advancedOptions_attribute.grid(row=2, column=0, sticky="nws", padx=(7,0), pa
 # Value setting
 lbl_advancedOptions_value = tk.Label(master=lbl_advancedOptions_attribute, text="Value", anchor="w", bg="#2f3136", fg="white")
 lbl_advancedOptions_value.grid(row=0, column=0, sticky="nws", padx=(170,0))
+lbl_advancedOptions_value_info = tk.Label(master=lbl_advancedOptions_value, bg="#2f3136", image=img_info_icon)
+lbl_advancedOptions_value_info.grid(row=0, column=0, sticky="w", padx=(32,0), pady=(1,0))
+tooltip_advancedOptions_value_info = Pmw.Balloon(root)
+tooltip_advancedOptions_value_info.bind(lbl_advancedOptions_value_info,"Enter the value of the specified property.")
 # Entry for value
 ent_advancedOptions_value = tk.Entry(master=frm_advancedOptions, bg="white", width=25)
 ent_advancedOptions_value.grid(row=2, column=0, sticky="nws", padx=(180,150), pady=(5,5))
@@ -205,6 +220,11 @@ chkbtn_advancedOptions_blackList.grid(row=2, column=3, sticky="nes", padx=10)
 
 lbl_advancedOptions_exceptions = tk.Label(master=frm_advancedOptions, text="Whitelist/Blacklist Parts", anchor="w", width=20, bg="#2f3136", fg="white")
 lbl_advancedOptions_exceptions.grid(row=3, column=0, sticky="w", padx=(5,0), pady=(10,5))
+lbl_advancedOptions_exceptions_info = tk.Label(master=lbl_advancedOptions_exceptions, bg="#2f3136", image=img_info_icon)
+lbl_advancedOptions_exceptions_info.grid(row=0, column=0, sticky="w", padx=(125,0), pady=(1,0))
+tooltip_advancedOptions_exceptions_info = Pmw.Balloon(root)
+tooltip_advancedOptions_exceptions_info.bind(lbl_advancedOptions_exceptions_info,"Whitelisting will only allow the specifed objects to be edited.\nBlacklisting will prevent specified objects from being edited.\nSelect \"Use Part ID\" to white/blacklist a specific group of parts using their partIds.\nSelect \"Use Part Type\" to white/blacklist a specific group of parts using their part type.")
+
 def doUsePartId():
     if usePartId.get() == 1:
         chkbtn_advancedOptions_usePartType.deselect()
@@ -214,7 +234,7 @@ def doUsePartType():
 usePartId = tk.IntVar()
 usePartType = tk.IntVar()
 chkbtn_advancedOptions_usePartId = tk.Checkbutton(master=lbl_advancedOptions_exceptions, text="Use Part ID", variable=usePartId, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doUsePartId)
-chkbtn_advancedOptions_usePartId.grid(row=0, column=0, sticky="nws", padx=(135,10))
+chkbtn_advancedOptions_usePartId.grid(row=0, column=0, sticky="nws", padx=(140,5))
 chkbtn_advancedOptions_usePartType = tk.Checkbutton(master=lbl_advancedOptions_exceptions, text="Use Part Type", variable=usePartType, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doUsePartType)
 chkbtn_advancedOptions_usePartType.grid(row=0, column=1, sticky="nws")
 ent_advancedOptions_exceptions = tk.Entry(master=frm_advancedOptions, bg="white", width=54)
