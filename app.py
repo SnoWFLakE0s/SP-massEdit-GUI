@@ -242,9 +242,21 @@ ent_advancedOptions_exceptions.grid(row=4, column=0, sticky="nws", padx=(7,0), p
 # Call checkHiding once to initialize the screen properly
 checkHiding()
 
+def applyChanges():
+    tree = ET.parse(aircraftFileDirectory[0])
+    Aircraft = tree.getroot()
+    prop = "calculateDrag"
+    if dragCalcOn == 1:
+        val = "true"
+    else:
+        val = "false"
+    for part in Aircraft.findall("Assembly/Parts/Part"):
+      part.set(prop, val)
+    tree.write(aircraftFileDirectory[0])
+
 frm_execute = tk.Frame(master=frm_main, bg="#2f3136")
 frm_execute.grid(row=3, column=0, sticky="news", pady=20)
-btn_execute = tk.Button(master=frm_execute, text="Apply all selected changes", padx=10, pady=5, bg="#375a7f", fg="white")
+btn_execute = tk.Button(master=frm_execute, text="Apply all selected changes", padx=10, pady=5, bg="#375a7f", fg="white", command=applyChanges)
 btn_execute.pack(fill='x')
 
 frm_footer = tk.Frame(master=frm_main, bg="#2f3136")
