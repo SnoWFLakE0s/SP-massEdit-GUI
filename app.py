@@ -38,6 +38,7 @@ def clearDirectory():
     #Empty file directory array
     aircraftFileDirectory.clear()
 
+# Main display frame
 frm_main = tk.Frame(master=root, bg="#2f3136", padx=20, pady=20)
 
 frm_selectFile = tk.Frame(master=frm_main, bg="#2f3136")
@@ -56,70 +57,39 @@ lbl_commonChoices = tk.Label(master=frm_commonChoices, text="Basic Options", bg=
 lbl_commonChoices_info = tk.Label(master=frm_commonChoices, bg="#2f3136", image=img_info_icon)
 lbl_commonChoices_info.grid(row=0, column=0, sticky="w", padx=(75,0), pady=(0,8))
 tooltip_commonChoices_info = Pmw.Balloon(root)
-tooltip_commonChoices_info.bind(lbl_commonChoices_info,"Commonly used, basic options for projects. Click the options to enable any particular one.")
+tooltip_commonChoices_info.bind(lbl_commonChoices_info,"Commonly used, basic options for projects. Click the options to enable any particular one.\nSome options may be mutually exclusive.")
 
 # Option: set massScale = 0
 # Make options mutually exclusive
-def doMassZero():
-    if massScaleZero.get() == 1:
-        chkbtn_commonChoices_massScaleOne.deselect()
-def doMassOne():
-    if massScaleOne.get() == 1:
-        chkbtn_commonChoices_massScaleZero.deselect()
-massScaleZero = tk.IntVar()
-chkbtn_commonChoices_massScaleZero = tk.Checkbutton(master=frm_commonChoices, text="Set mass scale to 0", variable=massScaleZero, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doMassZero)
+changeMassScale = tk.IntVar()
+chkbtn_commonChoices_massScaleZero = tk.Checkbutton(master=frm_commonChoices, text="Set mass scale to 0", variable=changeMassScale, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=1)
 chkbtn_commonChoices_massScaleZero.grid(row=1, column=0, sticky="nws", padx=(0,10))
 # Option: set massScale = 1
-massScaleOne = tk.IntVar()
-chkbtn_commonChoices_massScaleOne = tk.Checkbutton(master=frm_commonChoices, text="Set mass scale to 1", variable=massScaleOne, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doMassOne)
+chkbtn_commonChoices_massScaleOne = tk.Checkbutton(master=frm_commonChoices, text="Set mass scale to 1", variable=changeMassScale, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=2)
 chkbtn_commonChoices_massScaleOne.grid(row=2, column=0, sticky="nws", padx=(0,10))
 
 # Option: turn drag off
-# Make options mutually exclusive
-def doNoDrag():
-    if dragCalcOff.get() == 1:
-        chkbtn_commonChoices_dragCalcOn.deselect()
-def doYesDrag():
-    if dragCalcOn.get() == 1:
-        chkbtn_commonChoices_dragCalcOff.deselect()
-dragCalcOff = tk.IntVar()
-chkbtn_commonChoices_dragCalcOff = tk.Checkbutton(master=frm_commonChoices, text="Disable drag calculation", variable=dragCalcOff, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doNoDrag)
+changeDragCalculate = tk.IntVar()
+chkbtn_commonChoices_dragCalcOff = tk.Checkbutton(master=frm_commonChoices, text="Disable drag calculation", variable=changeDragCalculate, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=1)
 chkbtn_commonChoices_dragCalcOff.grid(row=1, column=1, sticky="nws", padx=(0,10))
 # Option: turn drag on
-dragCalcOn = tk.IntVar()
-chkbtn_commonChoices_dragCalcOn = tk.Checkbutton(master=frm_commonChoices, text="Enable drag calculation", variable=dragCalcOn, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doYesDrag)
+chkbtn_commonChoices_dragCalcOn = tk.Checkbutton(master=frm_commonChoices, text="Enable drag calculation", variable=changeDragCalculate, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=2)
 chkbtn_commonChoices_dragCalcOn.grid(row=2, column=1, sticky="nws", padx=(0,10))
 
-# Make options mutually exclusive
-def doDragZero():
-    if dragScaleZero.get() == 1:
-        chkbtn_commonChoices_dragScaleOne.deselect()
-def doDragOne():
-    if dragScaleOne.get() == 1:
-        chkbtn_commonChoices_dragScaleZero.deselect()
 # Option: set drag scale 0
-dragScaleZero = tk.IntVar()
-chkbtn_commonChoices_dragScaleZero = tk.Checkbutton(master=frm_commonChoices, text="Set drag scale to 0", variable=dragScaleZero, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doDragZero)
+changeDragScale = tk.IntVar()
+chkbtn_commonChoices_dragScaleZero = tk.Checkbutton(master=frm_commonChoices, text="Set drag scale to 0", variable=changeDragScale, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=1)
 chkbtn_commonChoices_dragScaleZero.grid(row=1, column=2, sticky="nws", padx=(0,10))
 # Option: set drag scale 1
-dragScaleOne = tk.IntVar()
-chkbtn_commonChoices_dragScaleOne = tk.Checkbutton(master=frm_commonChoices, text="Set drag scale to 1", variable=dragScaleOne, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doDragOne)
+chkbtn_commonChoices_dragScaleOne = tk.Checkbutton(master=frm_commonChoices, text="Set drag scale to 1", variable=changeDragScale, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=2)
 chkbtn_commonChoices_dragScaleOne.grid(row=2, column=2, sticky="nws", padx=(0,10))
 
 # Option: turn collisions off
-# Make options mutually exclusive
-def doDisableCollisions():
-    if disableCollisions.get() == 1:
-        chkbtn_commonChoices_enableCollisions.deselect()
-def doEnableCollisions():
-    if enableCollisions.get() == 1:
-        chkbtn_commonChoices_disableCollisions.deselect()
-disableCollisions = tk.IntVar()
-chkbtn_commonChoices_disableCollisions = tk.Checkbutton(master=frm_commonChoices, text="Disable part collisions", variable=disableCollisions, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doDisableCollisions)
+changeAircraftCollisions = tk.IntVar()
+chkbtn_commonChoices_disableCollisions = tk.Checkbutton(master=frm_commonChoices, text="Disable part collisions", variable=changeAircraftCollisions, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=1)
 chkbtn_commonChoices_disableCollisions.grid(row=1, column=3, sticky="nws", padx=(0,10))
 # Option: turn collisions on
-enableCollisions = tk.IntVar()
-chkbtn_commonChoices_enableCollisions = tk.Checkbutton(master=frm_commonChoices, text="Enable part collisions", variable=enableCollisions, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doEnableCollisions)
+chkbtn_commonChoices_enableCollisions = tk.Checkbutton(master=frm_commonChoices, text="Enable part collisions", variable=changeAircraftCollisions, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=2)
 chkbtn_commonChoices_enableCollisions.grid(row=2, column=3, sticky="nws", padx=(0,10))
 
 # Option: add 5 more colors
@@ -176,7 +146,7 @@ lbl_advancedOptions_value.grid(row=0, column=0, sticky="nws", padx=(170,0))
 lbl_advancedOptions_value_info = tk.Label(master=lbl_advancedOptions_value, bg="#2f3136", image=img_info_icon)
 lbl_advancedOptions_value_info.grid(row=0, column=0, sticky="w", padx=(32,0), pady=(1,0))
 tooltip_advancedOptions_value_info = Pmw.Balloon(root)
-tooltip_advancedOptions_value_info.bind(lbl_advancedOptions_value_info,"Enter the value of the specified property.")
+tooltip_advancedOptions_value_info.bind(lbl_advancedOptions_value_info,"Enter the deisred value of the specified property.")
 # Entry for value
 ent_advancedOptions_value = tk.Entry(master=frm_advancedOptions, bg="white", width=25)
 ent_advancedOptions_value.grid(row=2, column=0, sticky="nws", padx=(180,150), pady=(5,5))
@@ -199,6 +169,7 @@ def doBlackList():
 # runs once in the beginning, and any other time that
 # the checkboxes are used, so ensure that nothing goes
 # wrong with the toggle status.
+
 def checkHiding():
     if (whiteList.get() == 1 or blackList.get() == 1):
         lbl_advancedOptions_exceptions.grid()
@@ -225,17 +196,10 @@ lbl_advancedOptions_exceptions_info.grid(row=0, column=0, sticky="w", padx=(125,
 tooltip_advancedOptions_exceptions_info = Pmw.Balloon(root)
 tooltip_advancedOptions_exceptions_info.bind(lbl_advancedOptions_exceptions_info,"Whitelisting will only allow the specifed objects to be edited.\nBlacklisting will prevent specified objects from being edited.\nSelect \"Use Part ID\" to white/blacklist a specific group of parts using their partIds.\nSelect \"Use Part Type\" to white/blacklist a specific group of parts using their part type.")
 
-def doUsePartId():
-    if usePartId.get() == 1:
-        chkbtn_advancedOptions_usePartType.deselect()
-def doUsePartType():
-    if usePartType.get() == 1:
-        chkbtn_advancedOptions_usePartId.deselect()
-usePartId = tk.IntVar()
-usePartType = tk.IntVar()
-chkbtn_advancedOptions_usePartId = tk.Checkbutton(master=lbl_advancedOptions_exceptions, text="Use Part ID", variable=usePartId, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doUsePartId)
+filterType = tk.IntVar()
+chkbtn_advancedOptions_usePartId = tk.Checkbutton(master=lbl_advancedOptions_exceptions, text="Use Part ID", variable=filterType, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=1)
 chkbtn_advancedOptions_usePartId.grid(row=0, column=0, sticky="nws", padx=(140,5))
-chkbtn_advancedOptions_usePartType = tk.Checkbutton(master=lbl_advancedOptions_exceptions, text="Use Part Type", variable=usePartType, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", command=doUsePartType)
+chkbtn_advancedOptions_usePartType = tk.Checkbutton(master=lbl_advancedOptions_exceptions, text="Use Part Type", variable=filterType, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=2)
 chkbtn_advancedOptions_usePartType.grid(row=0, column=1, sticky="nws")
 ent_advancedOptions_exceptions = tk.Entry(master=frm_advancedOptions, bg="white", width=54)
 ent_advancedOptions_exceptions.grid(row=4, column=0, sticky="nws", padx=(7,0), pady=(0,7))
@@ -245,13 +209,13 @@ checkHiding()
 def applyChanges():
     tree = ET.parse(aircraftFileDirectory[0])
     Aircraft = tree.getroot()
-    prop = "calculateDrag"
-    if dragCalcOn == 1:
-        val = "true"
-    else:
-        val = "false"
+    # List of all modifiable properties
+    property = [changeMassScale, changeDragCalculate, changeDragScale, changeAircraftCollisions, addColors, collisionResponse, largeHealth, inertiaTensors]
+    # Should be nested list with the possible values of each attribute, depending on the state of the variable
+    value = []
+    # Should have a for loop iterating over each element of property array
     for part in Aircraft.findall("Assembly/Parts/Part"):
-      part.set(prop, val)
+      part.set(property, value)
     tree.write(aircraftFileDirectory[0])
 
 frm_execute = tk.Frame(master=frm_main, bg="#2f3136")
