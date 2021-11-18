@@ -69,11 +69,11 @@ chkbtn_commonChoices_massScaleOne = tk.Checkbutton(master=frm_commonChoices, tex
 chkbtn_commonChoices_massScaleOne.grid(row=2, column=0, sticky="nws", padx=(0,10))
 
 # Option: turn drag off
-changeDragCalculate = tk.IntVar()
-chkbtn_commonChoices_dragCalcOff = tk.Checkbutton(master=frm_commonChoices, text="Disable drag calculation", variable=changeDragCalculate, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=1)
+changeCalculateDrag = tk.IntVar()
+chkbtn_commonChoices_dragCalcOff = tk.Checkbutton(master=frm_commonChoices, text="Disable drag calculation", variable=changeCalculateDrag, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=1)
 chkbtn_commonChoices_dragCalcOff.grid(row=1, column=1, sticky="nws", padx=(0,10))
 # Option: turn drag on
-chkbtn_commonChoices_dragCalcOn = tk.Checkbutton(master=frm_commonChoices, text="Enable drag calculation", variable=changeDragCalculate, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=2)
+chkbtn_commonChoices_dragCalcOn = tk.Checkbutton(master=frm_commonChoices, text="Enable drag calculation", variable=changeCalculateDrag, bg="#2f3136", activebackground="#2f3136", selectcolor="#141414", fg="white", onvalue=2)
 chkbtn_commonChoices_dragCalcOn.grid(row=2, column=1, sticky="nws", padx=(0,10))
 
 # Option: set drag scale 0
@@ -206,21 +206,26 @@ ent_advancedOptions_exceptions.grid(row=4, column=0, sticky="nws", padx=(7,0), p
 # Call checkHiding once to initialize the screen properly
 checkHiding()
 
-def applyChanges():
-    tree = ET.parse(aircraftFileDirectory[0])
+def applyBasicChanges():
+    tree = ET.parse(str(aircraftFileDirectory[0]))
     Aircraft = tree.getroot()
-    # List of all modifiable properties
-    property = [changeMassScale, changeDragCalculate, changeDragScale, changeAircraftCollisions, addColors, collisionResponse, largeHealth, inertiaTensors]
-    # Should be nested list with the possible values of each attribute, depending on the state of the variable
-    value = []
-    # Should have a for loop iterating over each element of property array
-    for part in Aircraft.findall("Assembly/Parts/Part"):
-      part.set(property, value)
-    tree.write(aircraftFileDirectory[0])
+    # List of editable XML attributes
+    basicProperty_NameReference = ["massScale","calculateDrag","dragScale","disableAircraftCollisions"]
+    # Reference for status of the user choices
+    basicProperty_StateReference = [changeMassScale.get(),changeCalculateDrag.get(),changeDragScale.get(),changeAircraftCollisions.get()]
+    # List of possible values of the XML attributes
+    basicProperty_ValueReference = [[0,1],["false","true"],[0,1],[1,2]]
+    for i in basicProperty_StateReference:
+        if basicProperty_StateReference[i] != 0:
+            val = basicProperty_ValueReference[i][basicProperty_StateReference[i]-1]
+            prop = basicProperty_NameReference[i]
+            for part in Aircraft.findall("Assembly/Parts/Part"):
+                part.set(prop, val)
+    tree.write(str(aircraftFileDirectory[0]))
 
 frm_execute = tk.Frame(master=frm_main, bg="#2f3136")
 frm_execute.grid(row=3, column=0, sticky="news", pady=20)
-btn_execute = tk.Button(master=frm_execute, text="Apply all selected changes", padx=10, pady=5, bg="#375a7f", fg="white", command=applyChanges)
+btn_execute = tk.Button(master=frm_execute, text="Apply all selected changes", padx=10, pady=5, bg="#375a7f", fg="white", command=applyBasicChanges)
 btn_execute.pack(fill='x')
 
 frm_footer = tk.Frame(master=frm_main, bg="#2f3136")
