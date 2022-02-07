@@ -17,4 +17,5 @@ prop = input("Property> ")
 val = input("Value> ")
 for part in root.findall("Assembly/Parts/Part"):
     part.set(prop, val)
+    # If you wanna use this for Fuselage.State, append /Fuselage.State
 tree.write(path)
