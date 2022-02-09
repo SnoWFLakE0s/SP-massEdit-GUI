@@ -209,18 +209,46 @@ checkHiding()
 def applyBasicChanges():
     tree = ET.parse(str(aircraftFileDirectory[0]))
     Aircraft = tree.getroot()
-    # List of editable XML attributes
-    basicProperty_NameReference = ["massScale","calculateDrag","dragScale","disableAircraftCollisions"]
-    # Reference for status of the user choices
-    basicProperty_StateReference = [changeMassScale.get(),changeCalculateDrag.get(),changeDragScale.get(),changeAircraftCollisions.get()]
-    # List of possible values of the XML attributes
-    basicProperty_ValueReference = [[0,1],["false","true"],[0,1],[1,2]]
-    for i in basicProperty_StateReference:
-        if basicProperty_StateReference[i] != 0:
-            val = basicProperty_ValueReference[i][basicProperty_StateReference[i]-1]
-            prop = basicProperty_NameReference[i]
-            for part in Aircraft.findall("Assembly/Parts/Part"):
-                part.set(prop, val)
+    # Set up lists for each property and case
+    changeProps = []
+    changeVals = []
+
+    # massScale
+    if changeMassScale != 0:
+        changeProps.append("massScale")
+    if changeMassScale == 1:
+        changeVals.append("0")
+    if changeMassScale == 2:
+        changeVals.append("1")
+
+    # calculateDrag
+    if changeCalculateDrag != 0:
+        changeProps.append("calculateDrag")
+    if changeCalculateDrag == 1:
+        changeVals.append("false")
+    if changeCalculateDrag == 2:
+        changeVals.append("true")
+
+    # dragScale
+    if changeDragScale != 0:
+        changeProps.append("dragScale")
+    if changeDragScale == 1:
+        changeVals.append("0")
+    if changeDragScale == 2:
+        changeVals.append("1")
+
+    # disableAircraftCollisions
+    if changeAircraftCollisions != 0:
+        changeProps.append("disableAircraftCollisions")
+    if changeAircraftCollisions == 1:
+        changeVals.append("true")
+    if changeAircraftCollisions == 2:
+        changeVals.append("false")
+
+    prop = input("Property> ")
+    val = input("Value> ")
+    for part in Aircraft.findall("Assembly/Parts/Part"):
+        part.set(prop, val)
     tree.write(str(aircraftFileDirectory[0]))
 
 frm_execute = tk.Frame(master=frm_main, bg="#2f3136")
